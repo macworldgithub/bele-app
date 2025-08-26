@@ -1,26 +1,3 @@
-// import * as React from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import Home from './src/Screens/Home';
-// import BillQuery from './src/Screens/BillQuery';
-// import UpdateAddress from './src/Screens/UpdateAddress';
-// import CoverageCheck from './src/Screens/CoverageCheck';
-
-// const Stack = createNativeStackNavigator();
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator screenOptions={{ headerShown: false }}>
-//         <Stack.Screen name="Home" component={Home} />
-//         <Stack.Screen name="BillQuery" component={BillQuery} />
-//         <Stack.Screen name="UpdateAddress" component={UpdateAddress} />
-//         <Stack.Screen name="CoverageCheck" component={CoverageCheck} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
