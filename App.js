@@ -1,29 +1,67 @@
-import * as React from 'react';
+// import * as React from 'react';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import Home from './src/Screens/Home';
+// import BillQuery from './src/Screens/BillQuery';
+// import UpdateAddress from './src/Screens/UpdateAddress';
+// import CoverageCheck from './src/Screens/CoverageCheck';
+// import Splash from './src/Screens/Splash';
+// import Login from './src/Screens/Login';
+// import PrivacyConsent from './src/Screens/PrivacyConsent';
+
+// const Stack = createNativeStackNavigator();
+
+// export default function App() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator screenOptions={{ headerShown: false }}>
+//         {/* Initial Route is Splash */}
+//         <Stack.Screen name="Splash" component={Splash} />
+//         <Stack.Screen name="Login" component={Login} />
+//         <Stack.Screen name="Home" component={Home} />
+//         <Stack.Screen name="BillQuery" component={BillQuery} />
+//         <Stack.Screen name="UpdateAddress" component={UpdateAddress} />
+//         <Stack.Screen name="CoverageCheck" component={CoverageCheck} />
+//         <Stack.Screen name="PrivacyConsent" component={PrivacyConsent}/>
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Splash from './src/Screens/Splash';
+import Login from './src/Screens/Login';
+import SignUp from './src/Screens/Signup';
+import PrivacyConsent from './src/Screens/PrivacyConsent';
 import Home from './src/Screens/Home';
 import BillQuery from './src/Screens/BillQuery';
 import UpdateAddress from './src/Screens/UpdateAddress';
 import CoverageCheck from './src/Screens/CoverageCheck';
-import Splash from './src/Screens/Splash';
-import Login from './src/Screens/Login';
-import PrivacyConsent from './src/Screens/PrivacyConsent';
+import { initializeData } from './src/utils/FileUtils';
+
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+const App = () => {
+  useEffect(() => {
+    initializeData();
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* Initial Route is Splash */}
+      <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="PrivacyConsent" component={PrivacyConsent} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="BillQuery" component={BillQuery} />
         <Stack.Screen name="UpdateAddress" component={UpdateAddress} />
         <Stack.Screen name="CoverageCheck" component={CoverageCheck} />
-        <Stack.Screen name="PrivacyConsent" component={PrivacyConsent}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default App;

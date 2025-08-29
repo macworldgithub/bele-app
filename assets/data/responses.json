@@ -1,0 +1,32 @@
+{
+  "branding": {
+    "logo": "assets/belle-logo.png",
+    "primaryColor": "#9333ea"
+  },
+  "billQuery": [
+    {
+      "intent": "double_charge",
+      "pattern": "(double|duplicate|charged twice|high bill|overcharged|incorrect charge)",
+      "response": "Detected a duplicate service charge on your May bill. Ticket #TICKET_ID logged for review."
+    },
+    {
+      "intent": "bill_details",
+      "pattern": "(bill details|what's on my bill|breakdown|bill summary|charges)",
+      "response": "Here is your May bill breakdown: BILL_DETAILS"
+    }
+  ],
+  "addressUpdate": [
+    {
+      "intent": "update_address",
+      "pattern": "(change|update|new address|move to|relocate to)",
+      "response": "Address updated to NEW_ADDRESS. Confirmation sent via email/SMS."
+    }
+  ],
+  "coverageCheck": [
+    {
+      "intent": "check_coverage",
+      "pattern": "(coverage|available|service at|check coverage|network at|zip)",
+      "response": "Coverage at ZIP_CODE: COVERAGE_DETAILS"
+    }
+  ]
+}

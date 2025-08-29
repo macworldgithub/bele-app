@@ -1,0 +1,85 @@
+{
+  "users": [
+    {
+      "id": "ACC12345",
+      "name": "John Doe",
+      "serviceAddress": "123 Main St, Anytown, ST 12345",
+      "plan": "Premium 5G Plan",
+      "speed": "Up to 100 Mbps",
+      "status": "Active",
+      "expiry": "June 15, 2024",
+      "dataUsed": 8.5,
+      "dataLimit": 15,
+      "bill": {
+        "month": "May 2024",
+        "items": [
+          { "label": "Previous Balance", "amount": 0.0 },
+          { "label": "Service Charge (May 1–31)", "amount": 85.5 },
+          { "label": "Service Charge (Duplicate)", "amount": 85.5, "highlight": true },
+          { "label": "Taxes & Fees", "amount": 12.28 }
+        ],
+        "dueDate": "May 15, 2024",
+        "disputeNotice": true
+      }
+    },
+    {
+      "id": "ACC67890",
+      "name": "Jane Smith",
+      "serviceAddress": "456 Oak Ave, Othertown, ST 67890",
+      "plan": "Standard 4G Plan",
+      "speed": "Up to 50 Mbps",
+      "status": "Active",
+      "expiry": "July 10, 2024",
+      "dataUsed": 5.2,
+      "dataLimit": 10,
+      "bill": {
+        "month": "May 2024",
+        "items": [
+          { "label": "Previous Balance", "amount": 10.0 },
+          { "label": "Service Charge (May 1–31)", "amount": 45.0 },
+          { "label": "Taxes & Fees", "amount": 8.15 }
+        ],
+        "dueDate": "May 20, 2024",
+        "disputeNotice": false
+      }
+    }
+  ],
+  "coverage": [
+    { "zip": "12345", "availability": "5G, 4G" },
+    { "zip": "67890", "availability": "4G, 3G" },
+    { "zip": "11111", "availability": "5G" },
+    { "zip": "99999", "availability": "3G" }
+  ],
+  "branding": {
+    "logo": "assets/belle-logo.png",
+    "primaryColor": "#9333ea"
+  },
+  "responses": {
+    "billQuery": [
+      {
+        "intent": "double_charge",
+        "pattern": "(double|duplicate|charged twice|high bill)",
+        "response": "Detected a duplicate service charge on your May bill. Ticket #TICKET_ID logged for review."
+      },
+      {
+        "intent": "bill_details",
+        "pattern": "(bill details|what's on my bill|breakdown)",
+        "response": "Here is your May bill breakdown: BILL_DETAILS"
+      }
+    ],
+    "addressUpdate": [
+      {
+        "intent": "update_address",
+        "pattern": "(change|update|new address)",
+        "response": "Address updated to NEW_ADDRESS. Confirmation sent via email/SMS."
+      }
+    ],
+    "coverageCheck": [
+      {
+        "intent": "check_coverage",
+        "pattern": "(coverage|available|service at)",
+        "response": "Coverage at ZIP_CODE: COVERAGE_DETAILS"
+      }
+    ]
+  }
+}

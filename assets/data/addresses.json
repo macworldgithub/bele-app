@@ -1,0 +1,4 @@
+[
+  { "userId": "ACC12345", "serviceAddress": "123 Main St, Anytown, ST 12345" },
+  { "userId": "ACC67890", "serviceAddress": "456 Oak Ave, Othertown, ST 67890" }
+]

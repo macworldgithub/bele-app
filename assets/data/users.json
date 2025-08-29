@@ -1,0 +1,45 @@
+[
+  {
+    "id": "ACC12345",
+    "name": "John Doe",
+    "plan": "Premium 5G Plan",
+    "speed": "Up to 100 Mbps",
+    "status": "Active",
+    "expiry": "June 15, 2024",
+    "dataUsed": 8.5,
+    "dataLimit": 15,
+    "biometricEnrolled": true,
+    "bill": {
+      "month": "May 2024",
+      "items": [
+        { "label": "Previous Balance", "amount": 0.0 },
+        { "label": "Service Charge (May 1–31)", "amount": 85.5 },
+        { "label": "Service Charge (Duplicate)", "amount": 85.5, "highlight": true },
+        { "label": "Taxes & Fees", "amount": 12.28 }
+      ],
+      "dueDate": "May 15, 2024",
+      "disputeNotice": true
+    }
+  },
+  {
+    "id": "ACC67890",
+    "name": "Jane Smith",
+    "plan": "Standard 4G Plan",
+    "speed": "Up to 50 Mbps",
+    "status": "Active",
+    "expiry": "July 10, 2024",
+    "dataUsed": 5.2,
+    "dataLimit": 10,
+    "biometricEnrolled": false,
+    "bill": {
+      "month": "May 2024",
+      "items": [
+        { "label": "Previous Balance", "amount": 10.0 },
+        { "label": "Service Charge (May 1–31)", "amount": 45.0 },
+        { "label": "Taxes & Fees", "amount": 8.15 }
+      ],
+      "dueDate": "May 20, 2024",
+      "disputeNotice": false
+    }
+  }
+]

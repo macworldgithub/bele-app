@@ -1,0 +1,6 @@
+[
+  { "zip": "12345", "availability": "5G, 4G" },
+  { "zip": "67890", "availability": "4G, 3G" },
+  { "zip": "11111", "availability": "5G" },
+  { "zip": "99999", "availability": "3G" }
+]
