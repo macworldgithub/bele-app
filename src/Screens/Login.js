@@ -69,7 +69,7 @@
 
 // export default Login;
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -81,6 +81,8 @@ const Login = () => {
   const navigation = useNavigation();
   const [hasBiometric, setHasBiometric] = useState(false);
   const [userIdInput, setUserIdInput] = useState('');
+  const [pinInput, setPinInput] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -110,7 +112,6 @@ const Login = () => {
 
   const handleBiometricLogin = async () => {
     try {
-      // Check if any user has biometrics enrolled
       const users = await getUsers();
       const biometricUser = users.find(u => u.biometricEnrolled === true);
       if (!biometricUser) {
@@ -119,7 +120,6 @@ const Login = () => {
         return;
       }
 
-      // Perform biometric authentication
       const result = await LocalAuthentication.authenticateAsync({
         promptMessage: 'Authenticate with biometrics to access Bele',
         fallbackLabel: 'Use PIN',
@@ -141,18 +141,22 @@ const Login = () => {
   };
 
   const handlePinLogin = async () => {
-    if (!userIdInput) {
-      Alert.alert('Error', 'Please enter your User ID.');
+    if (!userIdInput || !pinInput) {
+      await logLoginAttempt('pin', false, userIdInput || 'unknown');
+      Alert.alert('Error', 'Please enter both User ID and PIN.');
       return;
     }
     const users = await getUsers();
-    const user = users.find(u => u.id === userIdInput);
+    const user = users.find(u => u.id === userIdInput && u.pin === pinInput);
     if (!user) {
       await logLoginAttempt('pin', false, userIdInput);
-      Alert.alert('Error', 'Invalid User ID. Please try again or sign up.');
+      Alert.alert('Error', 'Invalid User ID or PIN. Please try again or sign up.');
       return;
     }
     await logLoginAttempt('pin', true, user.id);
+    setModalVisible(false);
+    setUserIdInput('');
+    setPinInput('');
     navigation.replace('PrivacyConsent', { userId: user.id });
   };
 
@@ -191,15 +195,9 @@ const Login = () => {
           </TouchableOpacity>
 
           <Text style={tw`text-base font-semibold text-center mt-4`}>PIN Login</Text>
-          <TextInput
-            style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3 mt-2`}
-            placeholder="Enter User ID (e.g., ACC12345)"
-            value={userIdInput}
-            onChangeText={setUserIdInput}
-          />
           <TouchableOpacity
             style={tw`border border-purple-400 py-3 rounded-lg mb-3`}
-            onPress={handlePinLogin}
+            onPress={() => setModalVisible(true)}
           >
             <Text style={tw`text-purple-500 text-center font-semibold`}>Use PIN Instead</Text>
           </TouchableOpacity>
@@ -216,6 +214,51 @@ const Login = () => {
           </Text>
         </View>
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}>
+          <View style={[tw`bg-white rounded-2xl p-6 w-4/5`, { maxWidth: 320 }]}>
+            <Text style={tw`text-lg font-bold text-center mb-4`}>PIN Login</Text>
+            <TextInput
+              style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
+              placeholder="Enter User ID (e.g., ACC12345)"
+              placeholderTextColor="#9CA3AF"
+              value={userIdInput}
+              onChangeText={setUserIdInput}
+            />
+            <TextInput
+              style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
+              placeholder="Enter PIN"
+              placeholderTextColor="#9CA3AF"
+              value={pinInput}
+              onChangeText={setPinInput}
+              keyboardType="numeric"
+              secureTextEntry
+            />
+            <TouchableOpacity
+              style={tw`bg-purple-500 py-3 rounded-lg mb-3`}
+              onPress={handlePinLogin}
+            >
+              <Text style={tw`text-white text-center font-semibold`}>Log In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={tw`border border-purple-400 py-3 rounded-lg`}
+              onPress={() => {
+                setModalVisible(false);
+                setUserIdInput('');
+                setPinInput('');
+              }}
+            >
+              <Text style={tw`text-purple-500 text-center font-semibold`}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 };

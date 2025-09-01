@@ -6,27 +6,67 @@
   "billQuery": [
     {
       "intent": "double_charge",
-      "pattern": "(double|duplicate|charged twice|high bill|overcharged|incorrect charge)",
+      "pattern": "(double charge|duplicate charge|charged twice|bill too high|overcharged|incorrect charge)",
       "response": "Detected a duplicate service charge on your May bill. Ticket #TICKET_ID logged for review."
     },
     {
       "intent": "bill_details",
-      "pattern": "(bill details|what's on my bill|breakdown|bill summary|charges)",
+      "pattern": "(bill details|what is on my bill|bill breakdown|bill summary|view charges)",
       "response": "Here is your May bill breakdown: BILL_DETAILS"
+    },
+    {
+      "intent": "late_fee",
+      "pattern": "(late fee|late charge|penalty charge|missed payment|why was i charged a fee)",
+      "response": "A late fee of $10 was applied due to a missed payment on BILL_DATE. Would you like to dispute this?"
+    },
+    {
+      "intent": "payment_status",
+      "pattern": "(payment status|is my payment processed|payment confirmation|confirm paid bill)",
+      "response": "Your payment of $PAYMENT_AMOUNT on PAYMENT_DATE was successful. Receipt sent to EMAIL."
+    },
+    {
+      "intent": "discount_query",
+      "pattern": "(discount available|current promotions|special offer|reduce bill|lower my bill)",
+      "response": "Current promotions include a 10% discount for annual plans. Apply via the app or contact support."
+    },
+    {
+      "intent": "billing_cycle",
+      "pattern": "(billing cycle|bill due date|when is bill due|billing period)",
+      "response": "Your billing cycle ends on BILL_CYCLE_END. Next bill is due on DUE_DATE."
     }
   ],
   "addressUpdate": [
     {
       "intent": "update_address",
-      "pattern": "(change|update|new address|move to|relocate to)",
+      "pattern": "(change address|update address|new address|move to address|relocate to address)",
       "response": "Address updated to NEW_ADDRESS. Confirmation sent via email/SMS."
     }
   ],
   "coverageCheck": [
     {
       "intent": "check_coverage",
-      "pattern": "(coverage|available|service at|check coverage|network at|zip)",
+      "pattern": "(check coverage|service availability|network coverage|coverage at zip|is service available)",
       "response": "Coverage at ZIP_CODE: COVERAGE_DETAILS"
+    },
+    {
+      "intent": "network_type",
+      "pattern": "(5g coverage|4g coverage|network type|available networks|connection speed at)",
+      "response": "At ZIP_CODE, available networks are NETWORK_TYPES with speeds up to MAX_SPEED."
+    },
+    {
+      "intent": "coverage_issue",
+      "pattern": "(no signal|weak signal|coverage issue|no service|dropped calls)",
+      "response": "Sorry, it seems there's a coverage issue at ZIP_CODE. A ticket has been created: #TICKET_ID."
+    },
+    {
+      "intent": "expansion_plans",
+      "pattern": "(expand coverage|new coverage plans|when will coverage improve|future coverage)",
+      "response": "Coverage expansion to ZIP_CODE is planned for EXPANSION_DATE. Stay tuned for updates!"
+    },
+    {
+      "intent": "indoor_coverage",
+      "pattern": "(indoor coverage|signal inside home|coverage in building|home signal strength)",
+      "response": "Indoor coverage at ZIP_CODE may vary. Try a signal booster or contact support for solutions."
     }
   ]
 }

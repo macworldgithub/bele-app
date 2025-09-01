@@ -1,29 +1,40 @@
 {
   "expo": {
-    "name": "Bela-App",
+    "name": "Bele",
     "slug": "Bela-App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/belle-logo.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/belle-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true
-    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/belle-logo.png",
+        "backgroundColor": "#9333ea"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.justmobile.demo",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT"
+      ]
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "plugins": [
+      "expo-local-authentication"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b4b367aa-6e73-4451-870d-34a906ea1884"
+      }
     }
   }
 }

@@ -14,6 +14,7 @@ const SignUp = () => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zip, setZip] = useState('');
+  const [pin, setPin] = useState('');
 
   const generateUniqueUserId = async () => {
     const users = await getUsers();
@@ -25,8 +26,14 @@ const SignUp = () => {
   };
 
   const handleSignUp = async () => {
-    if (!name || !email || !street || !city || !state || !zip) {
-      Alert.alert('Error', 'Please fill all fields');
+    if (!name || !email || !street || !city || !state || !zip || !pin) {
+      Alert.alert('Error', 'Please fill all fields, including PIN.');
+      return;
+    }
+
+    // Validate PIN (e.g., ensure it's numeric and at least 4 digits)
+    if (!/^\d{4,}$/.test(pin)) {
+      Alert.alert('Error', 'PIN must be at least 4 digits and contain only numbers.');
       return;
     }
 
@@ -67,15 +74,16 @@ const SignUp = () => {
       dataUsed: 0,
       dataLimit: 5,
       biometricEnrolled,
+      pin, // Add PIN to user object
       bill: {
         month: 'May 2024',
         items: [
           { label: 'Service Charge', amount: 30.0 },
-          { label: 'Taxes & Fees', amount: 5.0 }
+          { label: 'Taxes & Fees', amount: 5.0 },
         ],
         dueDate: 'June 15, 2024',
-        disputeNotice: false
-      }
+        disputeNotice: false,
+      },
     };
 
     // Save user
@@ -93,7 +101,7 @@ const SignUp = () => {
       return;
     }
 
-    Alert.alert('Success', `Sign-up complete! Your User ID is ${userId}. Please log in.`);
+    Alert.alert('Success', `Sign-up complete! Your User ID is ${userId} and PIN is ${pin}. Please log in.`);
     navigation.replace('Login');
   };
 
@@ -114,12 +122,14 @@ const SignUp = () => {
           <TextInput
             style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
             placeholder="Full Name"
+            placeholderTextColor="#9CA3AF"
             value={name}
             onChangeText={setName}
           />
           <TextInput
             style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
             placeholder="Email"
+            placeholderTextColor="#9CA3AF"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -127,27 +137,40 @@ const SignUp = () => {
           <TextInput
             style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
             placeholder="Street Address"
+            placeholderTextColor="#9CA3AF"
             value={street}
             onChangeText={setStreet}
           />
           <TextInput
             style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
             placeholder="City"
+            placeholderTextColor="#9CA3AF"
             value={city}
             onChangeText={setCity}
           />
           <TextInput
             style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
             placeholder="State"
+            placeholderTextColor="#9CA3AF"
             value={state}
             onChangeText={setState}
           />
           <TextInput
             style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
             placeholder="ZIP Code"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={zip}
             onChangeText={setZip}
+          />
+          <TextInput
+            style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
+            placeholder="Enter PIN (at least 4 digits)"
+            placeholderTextColor="#9CA3AF"
+            keyboardType="numeric"
+            secureTextEntry
+            value={pin}
+            onChangeText={setPin}
           />
 
           <TouchableOpacity
@@ -165,7 +188,7 @@ const SignUp = () => {
           </TouchableOpacity>
 
           <Text style={tw`text-gray-400 text-xs text-center mt-4`}>
-            Your data is securely stored and protected. Biometric enrollment is required for biometric login.
+            Your data is securely stored and protected. Biometric enrollment is optional for PIN login.
           </Text>
         </View>
       </View>

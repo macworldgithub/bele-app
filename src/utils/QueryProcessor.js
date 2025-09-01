@@ -27,25 +27,61 @@ const processQuery = async (query, context, userId) => {
       return { success: false, message: 'Invalid query context.' };
   }
 
+  // Load user data if userId is provided
+  let user = null;
+  if (userId) {
+    const users = await getUsers();
+    user = users.find(u => u.id === userId);
+    if (!user) {
+      console.log(`User not found for userId: ${userId}`);
+      return { success: false, message: 'User not found.' };
+    }
+  }
+
+  // Default values for placeholders
+  const currentDate = new Date();
+  const formatDate = (date) => date.toISOString().split('T')[0];
+  const defaultBillDate = formatDate(new Date(currentDate.setDate(currentDate.getDate() - 15)));
+  const defaultPaymentDate = formatDate(new Date(currentDate.setDate(currentDate.getDate() - 5)));
+  const defaultDueDate = formatDate(new Date(currentDate.setDate(currentDate.getDate() + 15)));
+  const defaultBillCycleEnd = formatDate(new Date(currentDate.setDate(currentDate.getDate() + 30)));
+  const defaultEmail = user?.email || 'your-email@example.com';
+  const defaultPaymentAmount = user?.bill?.items?.reduce((acc, item) => acc + item.amount, 0)?.toFixed(2) || '50.00';
+  const defaultExpansionDate = formatDate(new Date(currentDate.setFullYear(currentDate.getFullYear() + 1)));
+
   for (const response of responseSet) {
     const regex = new RegExp(response.pattern, 'i');
     if (regex.test(query)) {
       let message = response.response;
       console.log(`Matched pattern: ${response.pattern} for intent: ${response.intent}`);
 
-      if (context === 'billQuery' && response.intent === 'bill_details') {
-        const users = await getUsers();
-        const user = users.find(u => u.id === userId);
-        if (!user) {
-          console.log(`User not found for userId: ${userId}`);
-          return { success: false, message: 'User not found.' };
+      // Generate a ticket ID for responses that need it
+      const ticketId = `T${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+
+      if (context === 'billQuery') {
+        if (response.intent === 'bill_details') {
+          if (!user) {
+            console.log(`User not found for userId: ${userId}`);
+            return { success: false, message: 'User not found.' };
+          }
+          const billItems = user.bill.items
+            .map(item => `${item.label}: $${item.amount.toFixed(2)}`)
+            .join(', ');
+          message = message.replace('BILL_DETAILS', billItems);
+        } else if (response.intent === 'double_charge') {
+          message = message.replace('TICKET_ID', ticketId);
+        } else if (response.intent === 'late_fee') {
+          message = message.replace('BILL_DATE', user?.bill?.date || defaultBillDate);
+        } else if (response.intent === 'payment_status') {
+          message = message
+            .replace('PAYMENT_AMOUNT', defaultPaymentAmount)
+            .replace('PAYMENT_DATE', user?.bill?.paymentDate || defaultPaymentDate)
+            .replace('EMAIL', defaultEmail);
+        } else if (response.intent === 'billing_cycle') {
+          message = message
+            .replace('BILL_CYCLE_END', user?.bill?.cycleEnd || defaultBillCycleEnd)
+            .replace('DUE_DATE', user?.bill?.dueDate || defaultDueDate);
         }
-        const billItems = user.bill.items
-          .map(item => `${item.label}: $${item.amount.toFixed(2)}`)
-          .join(', ');
-        message = message.replace('BILL_DETAILS', billItems);
-      } else if (context === 'billQuery' && response.intent === 'double_charge') {
-        message = message.replace('TICKET_ID', `T${Math.floor(Math.random() * 10000)}`);
       } else if (context === 'addressUpdate') {
         const newAddress = query.match(/to\s+(.+)/i)?.[1] || 'new address';
         message = message.replace('NEW_ADDRESS', newAddress);
@@ -57,6 +93,15 @@ const processQuery = async (query, context, userId) => {
           'COVERAGE_DETAILS',
           coverageData ? coverageData.availability : 'No coverage data available'
         ).replace('ZIP_CODE', zip || 'provided address');
+        if (response.intent === 'coverage_issue') {
+          message = message.replace('TICKET_ID', ticketId);
+        } else if (response.intent === 'network_type') {
+          const networkTypes = coverageData?.networkTypes?.join(', ') || '4G, 5G';
+          const maxSpeed = coverageData?.maxSpeed || '100 Mbps';
+          message = message.replace('NETWORK_TYPES', networkTypes).replace('MAX_SPEED', maxSpeed);
+        } else if (response.intent === 'expansion_plans') {
+          message = message.replace('EXPANSION_DATE', coverageData?.expansionDate || defaultExpansionDate);
+        }
       }
 
       console.log(`Returning response: ${message}`);

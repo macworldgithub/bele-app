@@ -113,10 +113,10 @@
 
 // export default UpdateAddress;
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { ArrowLeft } from 'lucide-react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import processQuery from '../utils/QueryProcessor';
 import { getUsers, getAddresses, updateAddress } from '../utils/FileUtils';
@@ -216,92 +216,105 @@ const UpdateAddress = () => {
     setQuery('');
   };
 
-  if (!user) return <Text>Loading...</Text>;
+  if (!user) return <Text style={tw`text-center mt-10`}>Loading...</Text>;
 
   return (
-    <LinearGradient
-      colors={['#fde047', '#f472b6', '#9333ea']}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={tw`flex-1`}
-    >
-      <View style={tw`flex-1 items-center justify-center px-4 pt-8`}>
-        <View style={tw`bg-white rounded-2xl w-full p-6`}>
-          <Text style={tw`text-lg font-bold text-center mb-1`}>Update Address</Text>
-          <Text style={tw`text-gray-600 text-center mb-5 text-xs`}>
-            Update your service address or ask to change it
-          </Text>
-
-          <View style={tw`mb-4 border border-gray-300 rounded-lg p-3`}>
-            <View style={tw`flex-row items-center`}>
-              <Icon name="location-on" size={22} color="black" />
-              <Text style={tw`ml-2 font-semibold`}>Current Service Address</Text>
-            </View>
-            <Text style={tw`mt-2 text-gray-800`}>{currentAddress}</Text>
-            <Text style={tw`text-gray-500 text-xs`}>Account #{user.id}</Text>
-          </View>
-
-          <View style={tw`mb-4 border border-gray-300 rounded-lg p-3`}>
-            <Text style={tw`font-semibold mb-2`}>New Service Address</Text>
-            <Text style={tw`text-xs text-gray-500 mb-4`}>
-              Enter your new address details or ask to update, e.g., "Change address to 123 New St"
-            </Text>
-            <TextInput
-              style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
-              placeholder="Street Address"
-              value={street}
-              onChangeText={setStreet}
-            />
-            <TextInput
-              style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
-              placeholder="City"
-              value={city}
-              onChangeText={setCity}
-            />
-            <TextInput
-              style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
-              placeholder="State"
-              value={state}
-              onChangeText={setState}
-            />
-            <TextInput
-              style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
-              placeholder="ZIP Code"
-              keyboardType="numeric"
-              value={zip}
-              onChangeText={setZip}
-            />
-            <TextInput
-              style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
-              placeholder="e.g., Change address to 123 New St"
-              value={query}
-              onChangeText={setQuery}
-            />
-            <TouchableOpacity 
-              style={tw`bg-purple-600 py-3 rounded-xl mb-4`} 
-              onPress={handleQuery}
-            >
-              <Text style={tw`text-white text-center font-semibold`}>Ask to Update</Text>
-            </TouchableOpacity>
-            {response && (
-              <View style={tw`bg-gray-100 rounded-lg p-3 mb-4`}>
-                <Text style={tw`text-sm text-gray-700`}>{response}</Text>
-              </View>
-            )}
-            <TouchableOpacity 
-              style={tw`bg-purple-600 py-3 rounded-xl`} 
-              onPress={handleUpdate}
-            >
-              <Text style={tw`text-white text-center font-semibold`}>Update Service Address</Text>
-            </TouchableOpacity>
-          </View>
-
-          <Text style={tw`text-gray-500 text-xs text-center mt-3`}>
-            You'll receive confirmation via email and SMS
-          </Text>
+    <KeyboardAvoidingView behavior="padding" style={tw`flex-1`}>
+      <ScrollView
+        style={tw`flex-1 bg-white px-4 pt-8`}
+        contentContainerStyle={tw`pb-20`}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* Header */}
+        <View style={tw`flex-row items-center mb-4 py-4`}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <ArrowLeft size={24} color="black" />
+          </TouchableOpacity>
+          <Text style={tw`ml-3 text-lg font-semibold`}>Update Address</Text>
         </View>
-      </View>
-    </LinearGradient>
+
+        {/* Current Service Address */}
+        <View style={tw`bg-gray-100 rounded-xl p-4 mb-6`}>
+          <View style={tw`flex-row items-center`}>
+            <Icon name="location-on" size={22} color="black" />
+            <Text style={tw`ml-2 font-semibold`}>Current Service Address</Text>
+          </View>
+          <Text style={tw`mt-2 text-gray-800`}>{currentAddress}</Text>
+          <Text style={tw`text-gray-500 text-xs`}>Account #{user.id}</Text>
+        </View>
+
+        {/* New Service Address */}
+        <View style={tw`bg-white rounded-xl p-4 border border-gray-200`}>
+          <Text style={tw`font-semibold mb-2`}>New Service Address</Text>
+          <Text style={tw`text-xs text-gray-500 mb-4`}>
+            Enter your new address details or ask to update, e.g., "Change address to 123 New St"
+          </Text>
+          <TextInput
+            style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
+            placeholder="Street Address"
+            placeholderTextColor="#9CA3AF"
+            value={street}
+            onChangeText={setStreet}
+          />
+          <TextInput
+            style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
+            placeholder="City"
+            placeholderTextColor="#9CA3AF"
+            value={city}
+            onChangeText={setCity}
+          />
+          <TextInput
+            style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
+            placeholder="State"
+            placeholderTextColor="#9CA3AF"
+            value={state}
+            onChangeText={setState}
+          />
+          <TextInput
+            style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
+            placeholder="ZIP Code"
+            placeholderTextColor="#9CA3AF"
+            keyboardType="numeric"
+            value={zip}
+            onChangeText={setZip}
+          />
+          <TextInput
+            style={tw`border border-gray-300 rounded-lg px-3 py-2 mb-3`}
+            placeholder="e.g., Change address to 123 New St"
+            placeholderTextColor="#9CA3AF"
+            value={query}
+            onChangeText={setQuery}
+          />
+          <TouchableOpacity 
+            style={tw`bg-black py-3 rounded-xl mb-4`} 
+            onPress={handleQuery}
+          >
+            <Text style={tw`text-white text-center font-semibold`}>Ask to Update</Text>
+          </TouchableOpacity>
+          {response && (
+            <View style={tw`bg-gray-100 rounded-lg p-3 mb-4`}>
+              <Text style={tw`text-sm text-gray-700`}>{response}</Text>
+            </View>
+          )}
+          <View style={tw`bg-gray-100 rounded-lg p-3 mb-4`}>
+            <Text style={tw`text-xs text-gray-600`}>
+              Note: Address changes may require a service visit to ensure proper connection at your new location. 
+              A $25 transfer fee may apply.
+            </Text>
+          </View>
+          <TouchableOpacity 
+            style={tw`bg-black py-3 rounded-xl`} 
+            onPress={handleUpdate}
+          >
+            <Text style={tw`text-white text-center font-semibold`}>Update Service Address</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={tw`text-xs text-gray-500 text-center mt-4 mb-6`}>
+          You'll receive confirmation via email and SMS once the update is processed
+        </Text>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

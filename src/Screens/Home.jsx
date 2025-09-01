@@ -170,41 +170,44 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import { Bell, ArrowRight } from 'lucide-react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import { getUsers, getAddresses } from '../utils/FileUtils';
 
 const Home = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const isFocused = useIsFocused();
   const { userId } = route.params || {};
   const [user, setUser] = useState(null);
   const [address, setAddress] = useState('');
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const users = await getUsers();
-        const addresses = await getAddresses();
-        const selectedUser = users.find(u => u.id === userId);
-        const userAddress = addresses.find(a => a.userId === userId);
-        if (!selectedUser) {
-          console.error('User not found for userId:', userId);
-          navigation.replace('Login');
-          return;
-        }
-        setUser(selectedUser);
-        setAddress(userAddress ? userAddress.serviceAddress : 'No address found');
-      } catch (error) {
-        console.error('Error loading data:', error);
+  const loadData = async () => {
+    try {
+      const users = await getUsers();
+      const addresses = await getAddresses();
+      const selectedUser = users.find(u => u.id === userId);
+      console.log("name",selectedUser)
+      const userAddress = addresses.find(a => a.userId === userId);
+      if (!selectedUser) {
+        console.error('User not found for userId:', userId);
         navigation.replace('Login');
+        return;
       }
-    };
+      setUser(selectedUser);
+      setAddress(userAddress ? userAddress.serviceAddress : 'No address found');
+    } catch (error) {
+      console.error('Error loading data:', error);
+      navigation.replace('Login');
+    }
+  };
+
+  useEffect(() => {
     loadData();
-  }, [userId, navigation]);
+  }, [userId, navigation, isFocused]);
 
   if (!user) return <Text>Loading...</Text>;
 
@@ -213,9 +216,21 @@ const Home = () => {
   const totalBill = user.bill.items.reduce((acc, item) => acc + item.amount, 0);
 
   return (
-    <ScrollView style={tw`flex-1 bg-white px-4 pt-8`}>
+    <ScrollView 
+      style={tw`flex-1 bg-white`} 
+      contentContainerStyle={tw`px-4 pt-8 pb-6 flex-grow`}
+    >
+      {/* Header */}
       <View style={tw`flex-row items-center py-4 mb-4`}>
-        <View style={tw`w-12 h-12 bg-gray-300 rounded-full`} />
+        {user.image ? (
+          <Image
+            source={{ uri: user.image }}
+            style={tw`w-12 h-12 rounded-full`}
+            resizeMode="cover"
+          />
+        ) : (
+          <View style={tw`w-12 h-12 bg-gray-300 rounded-full`} />
+        )}
         <View style={tw`ml-3`}>
           <Text style={tw`text-black font-bold`}>Welcome</Text>
           <Text style={tw`text-sm text-gray-400`}>{user.name}</Text>
@@ -226,6 +241,7 @@ const Home = () => {
         </View>
       </View>
 
+      {/* Account Overview */}
       <View style={tw`bg-white mx-4 p-4 rounded-xl border border-gray-200 mb-4`}>
         <Text style={tw`font-semibold mb-2`}>Account Overview</Text>
         <View style={tw`flex-row justify-between`}>
@@ -245,6 +261,7 @@ const Home = () => {
         </View>
       </View>
 
+      {/* Data Usage */}
       <View style={tw`bg-white mx-4 p-4 rounded-xl border border-gray-200 mb-4`}>
         <Text style={tw`font-semibold mb-2`}>Data Usage</Text>
         <Text style={tw`text-black`}>This Month: {user.dataUsed} / {user.dataLimit} GB</Text>
@@ -257,6 +274,7 @@ const Home = () => {
         </View>
       </View>
 
+      {/* Billing Summary */}
       <View style={tw`bg-white mx-4 p-4 rounded-xl border border-gray-200 mb-4`}>
         <Text style={tw`font-semibold mb-2`}>Billing Summary</Text>
         <View style={tw`flex-row justify-between items-center`}>
@@ -281,6 +299,7 @@ const Home = () => {
         </View>
       </View>
 
+      {/* Quick Actions */}
       <View style={tw`mx-4 mb-6`}>
         <Text style={tw`font-semibold mb-3`}>Quick Actions</Text>
         {[
