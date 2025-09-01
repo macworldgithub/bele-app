@@ -5,19 +5,19 @@
     "plan": "Premium 5G Plan",
     "speed": "Up to 100 Mbps",
     "status": "Active",
-    "expiry": "June 15, 2024",
+    "expiry": "September 15, 2025",
     "dataUsed": 8.5,
     "dataLimit": 15,
     "biometricEnrolled": true,
     "bill": {
-      "month": "May 2024",
+      "month": "September 2025",
       "items": [
         { "label": "Previous Balance", "amount": 0.0 },
-        { "label": "Service Charge (May 1–31)", "amount": 85.5 },
+        { "label": "Service Charge (September 1–30)", "amount": 85.5 },
         { "label": "Service Charge (Duplicate)", "amount": 85.5, "highlight": true },
         { "label": "Taxes & Fees", "amount": 12.28 }
       ],
-      "dueDate": "May 15, 2024",
+      "dueDate": "September 15, 2025",
       "disputeNotice": true
     },
     "image": "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
@@ -29,18 +29,18 @@
     "plan": "Standard 4G Plan",
     "speed": "Up to 50 Mbps",
     "status": "Active",
-    "expiry": "July 10, 2024",
+    "expiry": "October 10, 2025",
     "dataUsed": 5.2,
     "dataLimit": 10,
     "biometricEnrolled": false,
     "bill": {
-      "month": "May 2024",
+      "month": "September 2025",
       "items": [
         { "label": "Previous Balance", "amount": 10.0 },
-        { "label": "Service Charge (May 1–31)", "amount": 45.0 },
+        { "label": "Service Charge (September 1–30)", "amount": 45.0 },
         { "label": "Taxes & Fees", "amount": 8.15 }
       ],
-      "dueDate": "May 20, 2024",
+      "dueDate": "September 20, 2025",
       "disputeNotice": false
     },
     "image": "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/people19.png",

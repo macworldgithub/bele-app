@@ -242,24 +242,35 @@ const Home = () => {
       </View>
 
       {/* Account Overview */}
-      <View style={tw`bg-white mx-4 p-4 rounded-xl border border-gray-200 mb-4`}>
-        <Text style={tw`font-semibold mb-2`}>Account Overview</Text>
-        <View style={tw`flex-row justify-between`}>
-          <View>
-            <Text style={tw`text-gray-500`}>Account ID</Text>
-            <Text style={tw`font-bold text-green-600`}>{user.id}</Text>
-            <Text style={tw`text-gray-500 mt-2`}>Status</Text>
-            <Text style={tw`text-green-600 font-medium`}>{user.status}</Text>
-            <Text style={tw`text-gray-400 text-xs mt-1`}>Expires {user.expiry}</Text>
-          </View>
-          <View style={tw`items-end`}>
-            <Text style={tw`text-gray-500`}>Service Address</Text>
-            <Text style={tw`text-right font-medium text-black w-36`}>{address}</Text>
-            <Text style={tw`mt-2 text-black`}>{user.plan}</Text>
-            <Text style={tw`text-gray-500`}>{user.speed}</Text>
-          </View>
-        </View>
-      </View>
+      {/* Account Overview */}
+<View style={tw`bg-white mx-4 p-4 rounded-xl border border-gray-200 mb-4`}>
+  <Text style={tw`font-semibold mb-2`}>Account Overview</Text>
+  <View style={tw`flex-row justify-between`}>
+    {/* Left Column */}
+    <View style={tw`flex-1 pr-2`}>
+      <Text style={tw`text-gray-500`}>Account ID</Text>
+      <Text style={tw`font-bold text-green-600`}>{user.id}</Text>
+      <Text style={tw`text-gray-500 mt-2`}>Status</Text>
+      <Text style={tw`text-green-600 font-medium`}>{user.status}</Text>
+      <Text style={tw`text-gray-400 text-xs mt-1`}>Expires {user.expiry}</Text>
+    </View>
+
+    {/* Right Column */}
+    <View style={tw`flex-1 items-end`}>
+      <Text style={tw`text-gray-500`}>Service Address</Text>
+      <Text 
+        style={tw`text-right font-medium text-black`} 
+        numberOfLines={2} 
+        ellipsizeMode="tail"
+      >
+        {address}
+      </Text>
+      <Text style={tw`mt-2 text-black`}>{user.plan}</Text>
+      <Text style={tw`text-gray-500`}>{user.speed}</Text>
+    </View>
+  </View>
+</View>
+
 
       {/* Data Usage */}
       <View style={tw`bg-white mx-4 p-4 rounded-xl border border-gray-200 mb-4`}>

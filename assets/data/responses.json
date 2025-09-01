@@ -6,7 +6,7 @@
   "billQuery": [
     {
       "intent": "double_charge",
-      "pattern": "(double charge|duplicate charge|charged twice|bill too high|overcharged|incorrect charge)",
+      "pattern": "(double charge|duplicate charge|charged twice|bill too high|bill high|why was my bill high|May bill|overcharged|incorrect charge)",
       "response": "Detected a duplicate service charge on your May bill. Ticket #TICKET_ID logged for review."
     },
     {

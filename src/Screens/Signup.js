@@ -76,12 +76,12 @@ const SignUp = () => {
       biometricEnrolled,
       pin, // Add PIN to user object
       bill: {
-        month: 'May 2024',
+        month: 'Septemeber 2025',
         items: [
           { label: 'Service Charge', amount: 30.0 },
           { label: 'Taxes & Fees', amount: 5.0 },
         ],
-        dueDate: 'June 15, 2024',
+        dueDate: 'October 10, 2025',
         disputeNotice: false,
       },
     };
