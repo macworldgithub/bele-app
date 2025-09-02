@@ -10,6 +10,11 @@
       "response": "Detected a duplicate service charge on your May bill. Ticket #TICKET_ID logged for review."
     },
     {
+  "intent": "international_calls",
+  "pattern": "(international calls|international call|international|overseas calls|why was i charged for calls|calls to china|intl calls)",
+  "response": "7 calls were made to mobiles in China during the month, totaling $85.50."
+  },
+    {
       "intent": "bill_details",
       "pattern": "(bill details|what is on my bill|bill breakdown|bill summary|view charges)",
       "response": "Here is your May bill breakdown: BILL_DETAILS"

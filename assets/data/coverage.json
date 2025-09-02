@@ -1,6 +1,42 @@
 [
-  { "zip": "12345", "availability": "5G, 4G" },
-  { "zip": "67890", "availability": "4G, 3G" },
-  { "zip": "11111", "availability": "5G" },
-  { "zip": "99999", "availability": "3G" }
+  { 
+    "zip": "12345", 
+    "displayAddress": "Springfield, NSW, 12345",
+    "availability": "5G, 4G", 
+    "networkTypes": ["5G", "4G"], 
+    "maxSpeed": "1 Gbps", 
+    "expansionDate": "2026-01-01" 
+  },
+  { 
+    "zip": "67890", 
+    "displayAddress": "Shelbyville, VIC, 67890",
+    "availability": "4G, 3G", 
+    "networkTypes": ["4G", "3G"], 
+    "maxSpeed": "100 Mbps", 
+    "expansionDate": "2026-06-01" 
+  },
+  { 
+    "zip": "11111", 
+    "displayAddress": "Capital City, ACT, 11111",
+    "availability": "5G", 
+    "networkTypes": ["5G"], 
+    "maxSpeed": "1 Gbps", 
+    "expansionDate": "2025-12-01" 
+  },
+  { 
+    "zip": "99999", 
+    "displayAddress": "Ogdenville, QLD, 99999",
+    "availability": "3G", 
+    "networkTypes": ["3G"], 
+    "maxSpeed": "21 Mbps", 
+    "expansionDate": "2026-03-01" 
+  },
+  { 
+    "zip": "2145", 
+    "displayAddress": "Castle Hill, NSW, 2145",
+    "availability": "5G, 4G, 3G coverage available", 
+    "networkTypes": ["5G", "4G", "3G"], 
+    "maxSpeed": "1 Gbps", 
+    "expansionDate": "2026-01-01" 
+  }
 ]

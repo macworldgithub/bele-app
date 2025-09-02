@@ -70,9 +70,9 @@ const SignUp = () => {
       plan: 'Basic Plan',
       speed: 'Up to 25 Mbps',
       status: 'Active',
-      expiry: 'June 30, 2026',
-      dataUsed: 0,
-      dataLimit: 5,
+      expiry: 'October 10, 2025',
+      dataUsed: 5,
+      dataLimit: 10,
       biometricEnrolled,
       pin, // Add PIN to user object
       bill: {

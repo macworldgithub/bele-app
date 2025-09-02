@@ -86,13 +86,24 @@ const processQuery = async (query, context, userId) => {
         const newAddress = query.match(/to\s+(.+)/i)?.[1] || 'new address';
         message = message.replace('NEW_ADDRESS', newAddress);
       } else if (context === 'coverageCheck') {
-        const zipMatch = query.match(/\d{5}/) || query.match(/zip\s*(\d{5})/i);
-        const zip = zipMatch ? zipMatch[0] || zipMatch[1] : null;
+        // Match 4 or 5 digit postcodes or partial address like "Castle Hill"
+        const zipMatch = query.match(/\d{4,5}/) || query.match(/zip\s*(\d{4,5})/i);
+        let zip = zipMatch ? zipMatch[0] || zipMatch[1] : null;
+        let displayZip = zip;
+        
+        // Map "Castle Hill" or variations to zip "2145"
+        if (!zip && query.includes('castle hill')) {
+          zip = '2145';
+        }
+
         const coverageData = zip ? coverage.find(c => c.zip === zip) : null;
+        // Use displayAddress if available, otherwise fall back to input or zip
+        displayZip = coverageData?.displayAddress || zip || query;
         message = message.replace(
           'COVERAGE_DETAILS',
           coverageData ? coverageData.availability : 'No coverage data available'
-        ).replace('ZIP_CODE', zip || 'provided address');
+        ).replace('ZIP_CODE', displayZip);
+        
         if (response.intent === 'coverage_issue') {
           message = message.replace('TICKET_ID', ticketId);
         } else if (response.intent === 'network_type') {
