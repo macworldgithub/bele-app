@@ -79,6 +79,8 @@ const SignUp = () => {
         month: 'Septemeber 2025',
         items: [
           { label: 'Service Charge', amount: 30.0 },
+          { label: 'Service Charge (September 1–30)', amount: 50.0 },
+          { label: 'International Calls', amount: 75.0 },
           { label: 'Taxes & Fees', amount: 5.0 },
         ],
         dueDate: 'October 10, 2025',
